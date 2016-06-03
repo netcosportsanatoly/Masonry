@@ -39,9 +39,9 @@
     //define MAS_SHORTHAND before importing Masonry.h see Masonry iOS Examples-Prefix.pch
     [greenView makeConstraints:^(MASConstraintMaker *make) {
         make.top.greaterThanOrEqualTo(superview.top).offset(padding);
-        make.left.equalTo(superview.left).offset(padding);
+        make.leading.equalTo(superview.leading).offset(padding);
         make.bottom.equalTo(blueView.top).offset(-padding);
-        make.right.equalTo(redView.left).offset(-padding);
+        make.trailing.equalTo(redView.leading).offset(-padding);
         make.width.equalTo(redView.width);
 
         make.height.equalTo(redView.height);
@@ -52,9 +52,9 @@
     //with is semantic and option
     [redView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(superview.mas_top).with.offset(padding); //with with
-        make.left.equalTo(greenView.mas_right).offset(padding); //without with
+        make.leading.equalTo(greenView.mas_trailing).offset(padding); //without with
         make.bottom.equalTo(blueView.mas_top).offset(-padding);
-        make.right.equalTo(superview.mas_right).offset(-padding);
+        make.trailing.equalTo(superview.mas_trailing).offset(-padding);
         make.width.equalTo(greenView.mas_width);
         
         make.height.equalTo(@[greenView, blueView]); //can pass array of views
@@ -62,9 +62,9 @@
     
     [blueView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(greenView.mas_bottom).offset(padding);
-        make.left.equalTo(superview.mas_left).offset(padding);
+        make.leading.equalTo(superview.mas_leading).offset(padding);
         make.bottom.equalTo(superview.mas_bottom).offset(-padding);
-        make.right.equalTo(superview.mas_right).offset(-padding);
+        make.trailing.equalTo(superview.mas_trailing).offset(-padding);
         make.height.equalTo(@[greenView.mas_height, redView.mas_height]); //can pass array of attributes
     }];
 

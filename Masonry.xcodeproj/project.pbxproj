@@ -57,6 +57,10 @@
 		4473548E1B39F772004DACCB /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4473548C1B39F772004DACCB /* ViewController+MASAdditions.m */; };
 		447354921B3A18B3004DACCB /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4473548C1B39F772004DACCB /* ViewController+MASAdditions.m */; };
 		447354931B3A18B9004DACCB /* ViewController+MASAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 4473548B1B39F772004DACCB /* ViewController+MASAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B0E0A5521D01C31300D14CE4 /* View+MASRightToLeft.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E0A5501D01C31300D14CE4 /* View+MASRightToLeft.h */; };
+		B0E0A5531D01C31300D14CE4 /* View+MASRightToLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0A5511D01C31300D14CE4 /* View+MASRightToLeft.m */; };
+		B0E0A5541D01C32A00D14CE4 /* View+MASRightToLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = B0E0A5511D01C31300D14CE4 /* View+MASRightToLeft.m */; };
+		B0E0A5551D01C32D00D14CE4 /* View+MASRightToLeft.h in Headers */ = {isa = PBXBuildFile; fileRef = B0E0A5501D01C31300D14CE4 /* View+MASRightToLeft.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -88,6 +92,8 @@
 		3AED06271AD5A1400053CC65 /* Masonry.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Masonry.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4473548B1B39F772004DACCB /* ViewController+MASAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ViewController+MASAdditions.h"; sourceTree = "<group>"; };
 		4473548C1B39F772004DACCB /* ViewController+MASAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ViewController+MASAdditions.m"; sourceTree = "<group>"; };
+		B0E0A5501D01C31300D14CE4 /* View+MASRightToLeft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "View+MASRightToLeft.h"; sourceTree = "<group>"; };
+		B0E0A5511D01C31300D14CE4 /* View+MASRightToLeft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "View+MASRightToLeft.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +138,8 @@
 				3AED05E51AD5A0470053CC65 /* MASUtilities.h */,
 				3AED05EF1AD5A0470053CC65 /* View+MASAdditions.h */,
 				3AED05F01AD5A0470053CC65 /* View+MASAdditions.m */,
+				B0E0A5501D01C31300D14CE4 /* View+MASRightToLeft.h */,
+				B0E0A5511D01C31300D14CE4 /* View+MASRightToLeft.m */,
 				3AED05F11AD5A0470053CC65 /* View+MASShorthandAdditions.h */,
 				4473548B1B39F772004DACCB /* ViewController+MASAdditions.h */,
 				4473548C1B39F772004DACCB /* ViewController+MASAdditions.m */,
@@ -187,6 +195,7 @@
 				3AED05F21AD5A0470053CC65 /* MASCompositeConstraint.h in Headers */,
 				3AED05F61AD5A0470053CC65 /* MASConstraint+Private.h in Headers */,
 				3AED05F41AD5A0470053CC65 /* MASConstraint.h in Headers */,
+				B0E0A5521D01C31300D14CE4 /* View+MASRightToLeft.h in Headers */,
 				3AED06031AD5A0470053CC65 /* NSLayoutConstraint+MASDebugAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -209,6 +218,7 @@
 				447354931B3A18B9004DACCB /* ViewController+MASAdditions.h in Headers */,
 				3AED06221AD5A1400053CC65 /* MASConstraint.h in Headers */,
 				3AED061D1AD5A1400053CC65 /* MASConstraint+Private.h in Headers */,
+				B0E0A5551D01C32D00D14CE4 /* View+MASRightToLeft.h in Headers */,
 				3AED06211AD5A1400053CC65 /* NSLayoutConstraint+MASDebugAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +325,7 @@
 				3AED05F31AD5A0470053CC65 /* MASCompositeConstraint.m in Sources */,
 				3AED05F81AD5A0470053CC65 /* MASConstraintMaker.m in Sources */,
 				3AED06041AD5A0470053CC65 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				B0E0A5531D01C31300D14CE4 /* View+MASRightToLeft.m in Sources */,
 				3AED06061AD5A0470053CC65 /* View+MASAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -332,6 +343,7 @@
 				447354921B3A18B3004DACCB /* ViewController+MASAdditions.m in Sources */,
 				3AED06101AD5A1400053CC65 /* MASConstraintMaker.m in Sources */,
 				3AED06111AD5A1400053CC65 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */,
+				B0E0A5541D01C32A00D14CE4 /* View+MASRightToLeft.m in Sources */,
 				3AED06121AD5A1400053CC65 /* View+MASAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

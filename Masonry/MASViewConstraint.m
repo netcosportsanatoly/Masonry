@@ -11,6 +11,7 @@
 #import "MASCompositeConstraint.h"
 #import "MASLayoutConstraint.h"
 #import "View+MASAdditions.h"
+#import "View+MASRightToLeft.h"
 #import <objc/runtime.h>
 
 @interface MAS_VIEW (MASConstraints)
@@ -319,6 +320,18 @@ static char kInstalledConstraintsKey;
         secondLayoutAttribute = firstLayoutAttribute;
     }
     
+    // Manually control attributes for layout direction.
+    CGFloat constant = self.layoutConstant;
+    if (firstLayoutItem) {
+        MASLayoutDirection direction = firstLayoutItem.forcedDirection;
+        if (direction == MASLayoutDirectionDefault) {
+            direction = [MAS_VIEW defaultDirection];
+        }
+        constant = [self constantWithConstant:constant attribute:firstLayoutAttribute forDirection:direction];
+        firstLayoutAttribute = [self attributeWithAttribute:firstLayoutAttribute forDirection:direction];
+        secondLayoutAttribute = [self attributeWithAttribute:secondLayoutAttribute forDirection:direction];
+    }
+    
     MASLayoutConstraint *layoutConstraint
         = [MASLayoutConstraint constraintWithItem:firstLayoutItem
                                         attribute:firstLayoutAttribute
@@ -326,7 +339,7 @@ static char kInstalledConstraintsKey;
                                            toItem:secondLayoutItem
                                         attribute:secondLayoutAttribute
                                        multiplier:self.layoutMultiplier
-                                         constant:self.layoutConstant];
+                                         constant:constant];
     
     layoutConstraint.priority = self.layoutPriority;
     layoutConstraint.mas_key = self.mas_key;
@@ -357,6 +370,55 @@ static char kInstalledConstraintsKey;
         self.layoutConstraint = layoutConstraint;
         [firstLayoutItem.mas_installedConstraints addObject:self];
     }
+}
+
+- (CGFloat)constantWithConstant:(CGFloat)constant attribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
+{
+    if (direction == MASLayoutDirectionRightToLeft) {
+        if (attribute == NSLayoutAttributeTrailing ||
+            attribute == NSLayoutAttributeTrailingMargin ||
+            attribute == NSLayoutAttributeLeading ||
+            attribute == NSLayoutAttributeLeadingMargin) {
+            return (- constant);
+        }
+    }
+    
+    return constant;
+}
+                
+- (NSLayoutAttribute)attributeWithAttribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
+{
+    if (direction != MASLayoutDirectionDefault) {
+        if (attribute == NSLayoutAttributeLeading) {
+            if (direction == MASLayoutDirectionLeftToRight) {
+                return NSLayoutAttributeLeft;
+            } else {
+                return NSLayoutAttributeRight;
+            }
+        }
+        if (attribute == NSLayoutAttributeTrailing) {
+            if (direction == MASLayoutDirectionLeftToRight) {
+                return NSLayoutAttributeRight;
+            } else {
+                return NSLayoutAttributeLeft;
+            }
+        }
+        if (attribute == NSLayoutAttributeLeadingMargin) {
+            if (direction == MASLayoutDirectionLeftToRight) {
+                return NSLayoutAttributeLeftMargin;
+            } else {
+                return NSLayoutAttributeRightMargin;
+            }
+        }
+        if (attribute == NSLayoutAttributeTrailingMargin) {
+            if (direction == MASLayoutDirectionLeftToRight) {
+                return NSLayoutAttributeRightMargin;
+            } else {
+                return NSLayoutAttributeLeftMargin;
+            }
+        }
+    }
+    return attribute;
 }
 
 - (MASLayoutConstraint *)layoutConstraintSimilarTo:(MASLayoutConstraint *)layoutConstraint {
