@@ -322,12 +322,14 @@ static char kInstalledConstraintsKey;
     
     // Manually control attributes for layout direction.
     CGFloat constant = self.layoutConstant;
+    NSLayoutRelation relation = self.layoutRelation;
     if (firstLayoutItem) {
         MASLayoutDirection direction = firstLayoutItem.forcedDirection;
         if (direction == MASLayoutDirectionDefault) {
             direction = [MAS_VIEW defaultDirection];
         }
         constant = [self constantWithConstant:constant attribute:firstLayoutAttribute forDirection:direction];
+        relation = [self relationWithRelation:relation attribute:firstLayoutAttribute forDirection:direction];
         firstLayoutAttribute = [self attributeWithAttribute:firstLayoutAttribute forDirection:direction];
         secondLayoutAttribute = [self attributeWithAttribute:secondLayoutAttribute forDirection:direction];
     }
@@ -335,7 +337,7 @@ static char kInstalledConstraintsKey;
     MASLayoutConstraint *layoutConstraint
         = [MASLayoutConstraint constraintWithItem:firstLayoutItem
                                         attribute:firstLayoutAttribute
-                                        relatedBy:self.layoutRelation
+                                        relatedBy:relation
                                            toItem:secondLayoutItem
                                         attribute:secondLayoutAttribute
                                        multiplier:self.layoutMultiplier
@@ -384,6 +386,24 @@ static char kInstalledConstraintsKey;
     }
     
     return constant;
+}
+
+- (NSLayoutRelation)relationWithRelation:(NSLayoutRelation)relation attribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
+{
+    if (direction == MASLayoutDirectionRightToLeft) {
+        if (attribute == NSLayoutAttributeTrailing ||
+            attribute == NSLayoutAttributeTrailingMargin ||
+            attribute == NSLayoutAttributeLeading ||
+            attribute == NSLayoutAttributeLeadingMargin) {
+            if (relation == NSLayoutRelationGreaterThanOrEqual) {
+                return NSLayoutRelationLessThanOrEqual;
+            } else if (relation == NSLayoutRelationLessThanOrEqual) {
+                return NSLayoutRelationGreaterThanOrEqual;
+            }
+        }
+    }
+    
+    return relation;
 }
                 
 - (NSLayoutAttribute)attributeWithAttribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
