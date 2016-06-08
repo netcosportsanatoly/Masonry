@@ -328,8 +328,8 @@ static char kInstalledConstraintsKey;
         if (direction == MASLayoutDirectionDefault) {
             direction = [MAS_VIEW defaultDirection];
         }
-        constant = [self constantWithConstant:constant attribute:firstLayoutAttribute forDirection:direction];
-        relation = [self relationWithRelation:relation attribute:firstLayoutAttribute forDirection:direction];
+        constant = [self constantWithConstant:constant firstAttribute:firstLayoutAttribute secondAttribute:secondLayoutAttribute forDirection:direction];
+        relation = [self relationWithRelation:relation firstAttribute:firstLayoutAttribute secondAttribute:secondLayoutAttribute forDirection:direction];
         firstLayoutAttribute = [self attributeWithAttribute:firstLayoutAttribute forDirection:direction];
         secondLayoutAttribute = [self attributeWithAttribute:secondLayoutAttribute forDirection:direction];
     }
@@ -374,36 +374,46 @@ static char kInstalledConstraintsKey;
     }
 }
 
-- (CGFloat)constantWithConstant:(CGFloat)constant attribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
+- (CGFloat)constantWithConstant:(CGFloat)constant firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
 {
-    if (direction == MASLayoutDirectionRightToLeft) {
-        if (attribute == NSLayoutAttributeTrailing ||
-            attribute == NSLayoutAttributeTrailingMargin ||
-            attribute == NSLayoutAttributeLeading ||
-            attribute == NSLayoutAttributeLeadingMargin) {
-            return (- constant);
-        }
-    }
-    
-    return constant;
+    BOOL shouldRotate = [self shouldRotateConstraintWithFirstAttribute:firstAttribute secondAttribute:secondAttribute forDirection:direction];
+    return shouldRotate ? (- constant) : constant;
 }
 
-- (NSLayoutRelation)relationWithRelation:(NSLayoutRelation)relation attribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
+- (NSLayoutRelation)relationWithRelation:(NSLayoutRelation)relation firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
 {
-    if (direction == MASLayoutDirectionRightToLeft) {
-        if (attribute == NSLayoutAttributeTrailing ||
-            attribute == NSLayoutAttributeTrailingMargin ||
-            attribute == NSLayoutAttributeLeading ||
-            attribute == NSLayoutAttributeLeadingMargin) {
-            if (relation == NSLayoutRelationGreaterThanOrEqual) {
-                return NSLayoutRelationLessThanOrEqual;
-            } else if (relation == NSLayoutRelationLessThanOrEqual) {
-                return NSLayoutRelationGreaterThanOrEqual;
-            }
+    BOOL shouldRotate = [self shouldRotateConstraintWithFirstAttribute:firstAttribute secondAttribute:secondAttribute forDirection:direction];
+    if (shouldRotate) {
+        if (relation == NSLayoutRelationGreaterThanOrEqual) {
+            return NSLayoutRelationLessThanOrEqual;
+        } else if (relation == NSLayoutRelationLessThanOrEqual) {
+            return NSLayoutRelationGreaterThanOrEqual;
         }
     }
     
     return relation;
+}
+
+- (BOOL)shouldRotateConstraintWithFirstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
+{
+    if (direction == MASLayoutDirectionRightToLeft) {
+        if ([self isAttributeAllowedForRotating:firstAttribute] &&
+            [self isAttributeAllowedForRotating:secondAttribute]) {
+            return YES;
+        }
+    }
+    
+    return NO;
+}
+
+- (BOOL)isAttributeAllowedForRotating:(NSLayoutAttribute)attribute
+{
+    return (attribute == NSLayoutAttributeTrailing ||
+            attribute == NSLayoutAttributeTrailingMargin ||
+            attribute == NSLayoutAttributeLeading ||
+            attribute == NSLayoutAttributeLeadingMargin ||
+            attribute == NSLayoutAttributeCenterX ||
+            attribute == NSLayoutAttributeCenterXWithinMargins);
 }
                 
 - (NSLayoutAttribute)attributeWithAttribute:(NSLayoutAttribute)attribute forDirection:(MASLayoutDirection)direction
