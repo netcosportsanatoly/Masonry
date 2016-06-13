@@ -321,6 +321,7 @@ static char kInstalledConstraintsKey;
     }
     
     // Manually control attributes for layout direction.
+    CGFloat multiplier = self.layoutMultiplier;
     CGFloat constant = self.layoutConstant;
     NSLayoutRelation relation = self.layoutRelation;
     if (firstLayoutItem) {
@@ -328,6 +329,7 @@ static char kInstalledConstraintsKey;
         if (direction == MASLayoutDirectionDefault) {
             direction = [MAS_VIEW defaultDirection];
         }
+        multiplier = [self multiplierWithMultiplier:multiplier firstAttribute:firstLayoutAttribute secondAttribute:secondLayoutAttribute forDirection:direction];
         constant = [self constantWithConstant:constant firstAttribute:firstLayoutAttribute secondAttribute:secondLayoutAttribute forDirection:direction];
         relation = [self relationWithRelation:relation firstAttribute:firstLayoutAttribute secondAttribute:secondLayoutAttribute forDirection:direction];
         firstLayoutAttribute = [self attributeWithAttribute:firstLayoutAttribute forDirection:direction];
@@ -340,7 +342,7 @@ static char kInstalledConstraintsKey;
                                         relatedBy:relation
                                            toItem:secondLayoutItem
                                         attribute:secondLayoutAttribute
-                                       multiplier:self.layoutMultiplier
+                                       multiplier:multiplier
                                          constant:constant];
     
     layoutConstraint.priority = self.layoutPriority;
@@ -372,6 +374,12 @@ static char kInstalledConstraintsKey;
         self.layoutConstraint = layoutConstraint;
         [firstLayoutItem.mas_installedConstraints addObject:self];
     }
+}
+
+- (CGFloat)multiplierWithMultiplier:(CGFloat)multiplier firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
+{
+    BOOL shouldRotate = [self shouldRotateConstraintWithFirstAttribute:firstAttribute secondAttribute:secondAttribute forDirection:direction];
+    return shouldRotate ? (1.0f / multiplier) : multiplier;
 }
 
 - (CGFloat)constantWithConstant:(CGFloat)constant firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
