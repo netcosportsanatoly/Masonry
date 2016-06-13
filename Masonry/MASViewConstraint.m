@@ -379,7 +379,7 @@ static char kInstalledConstraintsKey;
 - (CGFloat)multiplierWithMultiplier:(CGFloat)multiplier firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
 {
     BOOL shouldRotate = [self shouldRotateConstraintWithFirstAttribute:firstAttribute secondAttribute:secondAttribute forDirection:direction];
-    return shouldRotate ? (1.0f / multiplier) : multiplier;
+    return shouldRotate ? (1.0f - (multiplier - 1.0f)) : multiplier;
 }
 
 - (CGFloat)constantWithConstant:(CGFloat)constant firstAttribute:(NSLayoutAttribute)firstAttribute secondAttribute:(NSLayoutAttribute)secondAttribute forDirection:(MASLayoutDirection)direction
