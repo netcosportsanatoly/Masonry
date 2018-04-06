@@ -2,18 +2,18 @@ workspace 'Masonry'
 
 platform :ios, '8.0'
 
-xcodeproj 'Examples/Masonry iOS Examples'
+project 'Examples/Masonry iOS Examples'
 target 'Masonry iOS Examples' do
   pod 'Masonry', :path => './'
 end
 
 target 'Masonry iOS Tests' do
-  xcodeproj 'Tests/Masonry Tests'
+  project 'Tests/Masonry Tests'
   pod 'Expecta'
 end
 
 target 'MasonryTestsLoader' do
-  xcodeproj 'Tests/Masonry Tests'
+  project 'Tests/Masonry Tests'
   pod 'Masonry', :path => './'
 end
 
